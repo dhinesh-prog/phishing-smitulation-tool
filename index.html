@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phishing Awareness Simulation Tool</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f6f9;
+            text-align: center;
+            padding: 20px;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            width: 60%;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        #score {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Phishing Awareness Simulation Tool</h2>
+
+    <div class="box">
+        <h3>Email Simulation</h3>
+        <p id="emailText"></p>
+
+        <button onclick="checkAnswer('phishing')">Phishing</button>
+        <button onclick="checkAnswer('safe')">Safe</button>
+
+        <p id="result"></p>
+        <p id="score"></p>
+        <button onclick="nextEmail()">Next Email</button>
+    </div>
+
+    <script>
+        const emails = [
+            {
+                text: "URGENT: Your bank account will be blocked! Click here immediately to verify your password.",
+                type: "phishing"
+            },
+            {
+                text: "Dear Student, Your exam timetable is available on the official college portal.",
+                type: "safe"
+            },
+            {
+                text: "Congratulations! You won ₹50,000. Click this link to claim your prize now!",
+                type: "phishing"
+            },
+            {
+                text: "Amazon: Your order has been shipped. Track via your official Amazon account.",
+                type: "safe"
+            }
+        ];
+
+        let current = 0;
+        let score = 0;
+
+        function loadEmail() {
+            document.getElementById("emailText").innerText = emails[current].text;
+            document.getElementById("result").innerText = "";
+        }
+
+        function checkAnswer(answer) {
+            if (answer === emails[current].type) {
+                score++;
+                document.getElementById("result").innerText = "✅ Correct! Good job.";
+                document.getElementById("result").style.color = "green";
+            } else {
+                document.getElementById("result").innerText = "❌ Wrong! This was " + emails[current].type + ".";
+                document.getElementById("result").style.color = "red";
+            }
+            document.getElementById("score").innerText = "Score: " + score;
+        }
+
+        function nextEmail() {
+            current = (current + 1) % emails.length;
+            loadEmail();
+        }
+
+        loadEmail();
+    </script>
+
+</body>
+</html>
